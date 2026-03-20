@@ -1,74 +1,69 @@
 # Product API + UI
 
-This is a project organized using the MVC (Model-View-Controller) model, built with Node.js and Express, using MongoDB (Mongoose) to store product data. If the server fails to connect to MongoDB on startup (3-second timeout), the application will automatically switch to using an in-memory datastore and continue running. This project source code is provided by MSc. Mai Van Manh.
+This project focuses on the deployment, orchestration, and maintenance of an Apple Product Management System. The application is a fully functional web interface that allows users to perform CRUD (Create, Read, Update, Delete) operations on a product inventory, including details such as name, price, color, and descriptions.
 
-**Key Features**
+The primary goal of this repository is to demonstrate a professional DevOps lifecycle, migrating the application from a traditional host-based execution to a fully containerized architecture on the cloud.
 
-- Full REST API for product management: CRUD (GET/POST/PUT/PATCH/DELETE).
-- Server-side UI rendered using EJS combined with Bootstrap for product management (interface in /`).
-- Each JSON response includes hostname and source information (data being retrieved from MongoDB or in-memory).
-- Supports uploading product images: images are stored on disk in `public/uploads/` and the `imageUrl` field in the product stores the relative path (`/uploads/<filename>`).
-- When updating or deleting a product, the old image file (located in `/uploads/`) will be deleted from disk.
-- Upon startup, if the MongoDB connection is successful and the collection is empty, the application will automatically seed 10 sample Apple products into MongoDB.
+**TECHNOLOGY STACK**
 
-**Main Structure**
+- Backend: Node.js with Express framework for handling product logic and API endpoints.
+- Database: MongoDB, used as the primary data source for storing product inventory.
+- Infrastructure: Amazon Web Services (AWS) EC2, running Ubuntu 24.04 LTS.
+- Web Server: Nginx, serving as a Reverse Proxy and managing SSL/TLS termination.
+- Containerization: Docker & Docker Compose for orchestration.
+- Security: HTTPS enabled via Let's Encrypt (Certbot) on the domain `www.ngochithuan.com`
 
-- `main.js` — entrypoint: connects to MongoDB (timeout 3s), in-memory fallback, launches Express.
-- `models/product.js` — Mongoose schema (`name`, `price`, `color`, `description`, `imageUrl`).
-- `services/dataSource.js` — an abstraction layer between MongoDB and in-memory (seed, CRUD, file deletion when needed).
-- `controllers/` — controllers that handle request/response logic.
-- `routes/` — routes for API (`/products`) and UI (`/`).
-- `views/` — `EJS` templates for the UI.
-- `public/` — static files: CSS, JS, `uploads/` (images are stored here).
+**REPOSITORY STRUCTURE**
 
-**Requirements & Configuration**
+- `/phase1` — Foundation scripts, Git workflow documentation, and automation tools.
+- `/phase2` — Artifacts for traditional host-based deployment (Nginx configs, PM2 setup).
+- `/phase3` — Containerization artifacts, including Dockerfiles and docker-compose.yml.
+- `/src` — Core application source code.
 
-- Node.js 16+ (or compatible version) and `npm`.
-- Environment file `.env`.
+**LOCAL DEPLOYMENT SETUP**
+
+To reproduce the environment locally:
+1. Clone the repository:
 
 ```text
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/products_db
+git clone https://github.com/ThongChauPro-Coder/midterm_devops_group22.git
+cd midterm_devops_group22
 ```
-
-If you want to connect to MongoDB with a username/password, adjust the `MONGO_URI` accordingly.
-
-**Installation & Run on Local Machine**
-
-1. Clone this repository to your machine.
-
 2. Install dependencies:
 
-```bash
-cd YOUR_PATH_TO_CLONED_REPO
+```text
 npm install
 ```
-
-3. Start the server:
-
+3. Environment Configuration:
+Creat a `.env` file and define the following variables:
+- PORT=3000
+- MONGO_URL=mongodb://localhost:27017/products_db
+4. Run the application
 ```bash
-# Run production (node)
 npm start
-
-# Or development mode with nodemon
-npm run dev
 ```
+**Deployment Phases**
 
-4. Open your browser and go to: `http://localhost:3000/` — the UI page will display the product list and provide Add / Edit / Delete operations.
+**1. Phase 1: Automation & Workflow**
 
-**API (JSON) — Main Endpoints**
+    Established a professional collaborative model using feature branches and Pull Requests. Developed a `setup.sh` script to automate the installation of Node.js, MongoDB, and Nginx on the Ubuntu host.
+**2. Phase 2: Traditional Cloud Deployment**
 
-- `GET /products` — retrieves a list of products.
-- `GET /products/:id` — retrieves details of a single product.
-- `POST /products` — creates a new product. Supports multipart form-data for uploading images (field file: `imageFile`) and text fields: `name`, `price`, `color`, `description`.
-- `PUT /products/:id` — replaces the entire product. Supports uploading files in multiple parts.
-- `PATCH /products/:id` — updates a part. Supports uploading files in multiple parts.
-- `DELETE /products/:id` — deletes the product and the corresponding image file if the image is stored in `/uploads/`.
+The system was deployed directly on the EC2 instance.
 
-Example of creating a product (curl, upload file):
 
-```bash
-curl -X POST -F "name=My Device" -F "price=199" -F "color=black" -F "description=Note" -F "imageFile=@/path/to/photo.jpg" http://localhost:3000/products
-```
+- **Persistence**: PM2 was used to ensure the application restarts automatically after server reboots.
 
-Note: The UI on the homepage uses fetch + FormData to send files, so you don't need to change anything if you're using the interface.
+- **Networking**: Nginx routes traffic from the public domain `www.ngochithuan.com` to the local application port.
+
+**3. Phase 3: Containerized Architecture**
+
+The entire stack is migrated to Docker containers.
+- **Web Service**: Pulls the production-ready image thongchau/mid-devops-nodejs:latest from Docker Hub.
+- **Database Service**: Runs an official MongoDB container with persistent volumes for data storage.
+- **Orchestration**: Managed via docker-compose.yml, ensuring internal service connectivity and automated restart policies.
+
+**PROJECT TEAM**
+- **Leader A (Thông)**: Cloud Infrastructure, Docker Hub Management, and Project Oversight.
+- **Member B (Nhi)**: Dockerfile Development, Image Building, and Local Integration Testing.
+- **Member C (Thuận)**: Docker Compose Orchestration, MongoDB Containerization, and Nginx Maintenance.
