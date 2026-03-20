@@ -1,8 +1,15 @@
-# Product API + UI
+# Product Management System - DevOps Project
+
+**PROJECT OVERVIEW**    
 
 This project focuses on the deployment, orchestration, and maintenance of an Apple Product Management System. The application is a fully functional web interface that allows users to perform CRUD (Create, Read, Update, Delete) operations on a product inventory, including details such as name, price, color, and descriptions.
 
 The primary goal of this repository is to demonstrate a professional DevOps lifecycle, migrating the application from a traditional host-based execution to a fully containerized architecture on the cloud.
+
+**GITHUB REPOSITORY**
+
+    The official source code and documentation for this project are maintained at:
+    Link: https://github.com/ThongChauPro-Coder/midterm_devops_group22
 
 **TECHNOLOGY STACK**
 
@@ -64,6 +71,7 @@ The entire stack is migrated to Docker containers.
 - **Orchestration**: Managed via docker-compose.yml, ensuring internal service connectivity and automated restart policies.
 
 **PROJECT TEAM**
-- **Leader A (Thông)**: Cloud Infrastructure, Docker Hub Management, and Project Oversight.
-- **Member B (Nhi)**: Dockerfile Development, Image Building, and Local Integration Testing.
-- **Member C (Thuận)**: Docker Compose Orchestration, MongoDB Containerization, and Nginx Maintenance.
+- **Leader A (Thông - 523H0098)**: Cloud Infrastructure, Docker Hub Management, and Project Oversight.
+- **Member B (Nhi - 523H0066)**: Dockerfile Development, Image Building, and Local Integration Testing.
+- **Member C (Thuận - 523H0102)**: Docker Compose Orchestration, MongoDB Containerization, and Nginx Maintenance.
+
